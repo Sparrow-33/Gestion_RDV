@@ -97,7 +97,6 @@
             <input
               required
               type="date"
-              min="{{current}}"
               v-on:change="changeDate($event)"
               v-model="form.date"
               id="email"
@@ -324,7 +323,6 @@ export default {
         this.time = result;
 
         console.log(this.time);
-        console.log(true);
       }
     },
 
@@ -336,7 +334,7 @@ export default {
     },
   },
   beforeMount() {
-    this.geTime();
+    // this.geTime();
     this.currentDate();
   },
 };
