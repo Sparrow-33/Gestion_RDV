@@ -54,11 +54,11 @@
       <li class="mr-5 hover:text-gray-900">Home</li>
       </router-link>
 
-      <router-link to="PatientPage">
+      <router-link v-if="token" to="PatientPage">
       <li class="mr-5 hover:text-gray-900">appointments</li>
       </router-link>
 
-      <router-link to="bookAppointment">
+      <router-link v-if="token" to="bookAppointment">
       <li class="mr-5 hover:text-gray-900">booking</li>
       </router-link>
       </ul>
@@ -74,11 +74,18 @@
         </svg>
       </button> -->
 
-                <router-link to="/LoginPage">
+                
+
+                <button v-if="token" type="button" class=" flex text-base font-medium  py-2 px-5 border border-gray-300 text-cyan-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cyan-500 focus:ring-white"  >
+                  Logout
+                </button> 
+
+                <router-link v-else to="/LoginPage">
 
                 <button type="button" class=" flex text-base font-medium  py-2 px-5 border border-gray-300 text-cyan-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cyan-500 focus:ring-white"  >
-                  Sign In
+                 Sign In
                 </button> </router-link>
+
               </div>
   </div>
 </header>
@@ -86,7 +93,14 @@
 
   <script>
   export default{
-    name:"HeaderComp"
+    name:"HeaderComp",
+
+    data(){
+      return{
+       token : localStorage.getItem('token')
+      }
+      
+    }
   }
   </script>
 

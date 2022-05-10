@@ -76,8 +76,8 @@
                <form  @submit.prevent="login">
                   <div class="mb-6">
                      <input
-                        type="email"
-                        placeholder="Email"
+                        type="text"
+                        placeholder="Reference"
                         class="
                         w-full
                         rounded-md
@@ -92,30 +92,10 @@
                         focus-visible:shadow-none
                         focus:border-primary
                         "
-                        v-model="form.email"
+                        v-model="form.reference"
                         />
                   </div>
-                  <div class="mb-6">
-                     <input
-                        type="password"
-                        placeholder="Password"
-                        class="
-                        w-full
-                        rounded-md
-                        border
-                        bordder-[#E9EDF4]
-                        py-3
-                        px-5
-                        bg-[#FCFDFE]
-                        text-base text-body-color
-                        placeholder-[#ACB6BE]
-                        outline-none
-                        focus-visible:shadow-none
-                        focus:border-primary
-                        "
-                        v-model="form.password"
-                        />
-                  </div>
+                  
                   <div class="mb-10">
                      <input
                         type="submit"
@@ -380,8 +360,7 @@ export default {
   data(){
     return{
       form:{
-        email:'',
-        password:'',
+        reference:""
       },
       storeJWT :{},
     }

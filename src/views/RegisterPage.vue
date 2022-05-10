@@ -98,7 +98,7 @@
                   <img src="https://cdn.tailgrids.com/1.0/assets/images/logo/logo.svg" alt="logo" />
                   </a>
                </div>
-               <form  @submit.prevent="login">
+               <form  @submit.prevent="register">
                   <div class="mb-6">
                      <input
                         type="email"
@@ -124,6 +124,7 @@
                      <input
                         type="text"
                         placeholder="Personal Name"
+                        v-model="form.PersName"
                         class="
                         w-full
                         rounded-md
@@ -145,7 +146,8 @@
                   <div class="mb-6">
                      <input
                         type="text"
-                        placeholder="Family name"
+                        placeholder="Family Name"
+                        v-model="form.FamName"
                         class="
                         w-full
                         rounded-md
@@ -160,9 +162,11 @@
                         focus-visible:shadow-none
                         focus:border-primary
                         "
-                        v-model="form.password"
+                        
                         />
                   </div>
+
+                 
 
                   <div class="mb-6">
                      <input
@@ -183,7 +187,7 @@
                         focus-visible:shadow-none
                         focus:border-primary
                         "
-                        v-model="form.password"
+                        v-model="form.NID"
                         />
                   </div>
 
@@ -457,7 +461,7 @@ export default {
         PersName:'',
         NID:'',
         email:'',
-        password:'',
+       
 
       }
 
