@@ -166,6 +166,7 @@
             >
             <textarea
               required
+              maxlength="150"
               id="message"
               v-model="form.sujet"
               name="message"

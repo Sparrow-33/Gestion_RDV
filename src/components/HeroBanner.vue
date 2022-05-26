@@ -11,7 +11,9 @@
             <br><span class=""><span class="text-primary-3 font-semibold">Request an appointment</span> today and join our family of patients for life.</span>
           </p>
           <div class="flex justify-center mt--1 ">
+            <router-link to="/LoginPage" >
             <button class="inline-flex font-bold  rounded-full text-neutral bg-cyan-500 text-cyan-50 border-0 py-3 px-8 focus:outline-none  text-lg">Get Started</button>
+            </router-link>
           </div>
         </div>
         <div class=" ban-img  lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
@@ -43,7 +45,7 @@ export default {
    height: 100%;
    left: 0;
    top: -1em;
-   background:#6281FB ;
+   background:#22D3EE ;
    transform: rotate(40deg);
    border-radius:66% 34% 43% 57% / 58% 61% 39% 42%   ;
    z-index: -11;
@@ -56,7 +58,7 @@ export default {
    height: 100%;
    left: 2em;
    top: 0;
-   border: dashed #6281FB 2px;
+   border: dashed #22D3EE 3px;
    transform: rotate(50deg);
    border-radius: 42% 58% 43% 57% / 72% 35% 65% 28%   ;
    z-index: -11;

@@ -65,13 +65,8 @@
                md:px-[60px]
                "
                >
-               <div class="mb-10 md:mb-16 text-center">
-                  <a
-                     href="javascript:void(0)"
-                     class="inline-block max-w-[160px] mx-auto"
-                     >
-                  <img src="https://cdn.tailgrids.com/1.0/assets/images/logo/logo.svg" alt="logo" />
-                  </a>
+               <div class="mb-10 md:mb-16 text-center">                  
+                  <p class="font-semibold text-xl text-blue-400  border-b-2 border-blue-400  pb-2 ">Enter your reference</p>
                </div>
                <form  @submit.prevent="login">
                   <div class="mb-6">

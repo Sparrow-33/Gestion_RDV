@@ -91,12 +91,7 @@
                "
                >
                <div class="mb-10 md:mb-16 text-center">
-                  <a
-                     href="javascript:void(0)"
-                     class="inline-block max-w-[160px] mx-auto"
-                     >
-                  <img src="https://cdn.tailgrids.com/1.0/assets/images/logo/logo.svg" alt="logo" />
-                  </a>
+                  <p class="font-semibold text-xl text-blue-400  border-b-2 border-blue-400  pb-2 ">Enter your credentials</p>
                </div>
                <form  @submit.prevent="register">
                   <div class="mb-6">
@@ -452,6 +447,7 @@
 </template>
 
 <script>
+import swal from "sweetalert";
 export default {
   name: "RegisterPage",
   data(){
@@ -477,7 +473,16 @@ export default {
            }
        );
      if (data.status === 200){
+         let reference = await data.json()
+             reference = reference.reference
+         
        this.$router.push('LoginPage')
+       console.log(reference)
+       swal({
+         title: "Take The Reference",
+         text: reference,
+         icon: "success",
+         });
        console.log("SUCCESS")
      }else{
        console.log("FAILURE")

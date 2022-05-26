@@ -1,5 +1,5 @@
 <template>
-  <section class="vh-100 mt-5">
+  <section v-if="result" class="vh-100 mt-5">
     <div class="container-fluid h-custom mt-5">
       <div class="container mt-5 flex gap-5 px-5">
         <div v-for="result in result" :key="result">
@@ -77,9 +77,9 @@
               </div>
               <div class="p-6">
                 <h5 class="text-cyan-700 font-semibold mb-2">Sujet</h5>
-                <p class="bg-cyan-600 rounded-xl py-2 px-3 text-white mb-4">
-                  {{ result.Sujet }}
-                </p>
+                <textarea readonly  v-model="result.Sujet " class="bg-cyan-600 rounded-xl py-2  px-3 h-32 text-white mb-4">
+                  
+                </textarea>
               </div>
               <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
                 <p class="text-cyan-700 font-semibold mb-2">Heure</p>
@@ -97,9 +97,9 @@
     <!-- popup -->
     <div
       v-if="!popup"
-      class="absolute bg-black opacity-80 inset-0 z-10 flex justify-center"
+      class="absolute bg-black opacity-80 inset-0 z-10 flex justify-center w-full h-full"
     >
-      <div class="p-4 md:w-1/3">
+      <div class="p-4 md:w-1/3 sm:w-1/2">
         <div
           class="
             relative
@@ -108,6 +108,7 @@
             bg-gray-200
             rounded-lg
             overflow-hidden
+            popup
           "
         >
           <div
@@ -135,7 +136,7 @@
                   required
                   type="date"
                   v-on:change="changeDate($event)"
-                  v-model="popResult[0].dateRDV"
+                  v-model="form.date"
                   
                   id="email"
                   name="date"
@@ -169,7 +170,7 @@
                 <select
                   required
                   v-on:change="changeItem($event)"
-                  v-model="popResult[0].begin"
+                  v-model="form.selected"
                   name="name"
                   class="
                     w-full
@@ -207,6 +208,7 @@
                 >
                 <textarea
                   required
+                  maxlength="150"
                   id="message"
                   name="message"
                   class="
@@ -230,7 +232,7 @@
                     duration-200
                     ease-in-out
                   "
-                  v-model="popResult[0].Sujet"
+                  v-model="form.sujet"
                   @input="getTextSubject($event.target.value)"
                 ></textarea>
               </div>
@@ -240,17 +242,31 @@
                 value="Update"
                 class="
                   text-white
-                  bg-indigo-500
+                  bg-sky-500
                   border-0
                   py-2
                   px-8
                   focus:outline-none
-                  hover:bg-indigo-600
+                  hover:bg-sky-600
                   rounded
                   text-lg
                 "
               />
+             <button class="
+                  text-white
+                  bg-red-500
+                  border-0
+                  py-2
+                  px-8
+                  focus:outline-none
+                  hover:bg-red-600
+                  rounded
+                  text-lg
+                  
+                "
+                @click="popup = !popup">Close</button>
             </form>
+             
           </div>
         </div>
       </div>
@@ -258,30 +274,25 @@
 
     <!-- --- -->
   </section>
+
+  <!-- """""""""""""""""""" -->
+
 </template>
 
 <script >
 import swal from "sweetalert";
-//  const popup =true;
-
 export default {
   name: "PatientPage",
   data() {
     return {
       time: [],
-      sujet: "",
-      date: "",
-      popupDate: "",
-      popupTime: "",
-      heure: "",
-      popupSujet:"",
+      
       result: [],
       popResult: [],
-      // time,
       popup: true,
 
       form: {
-        date: this.popupDate,
+        date: "",
         sujet: "",
         id: localStorage.getItem("id"),
         selected: this.selected,
@@ -293,8 +304,6 @@ export default {
 
     changeItem: function changeItem(event) {
       this.selected = event.target.value;
-
-      console.log(this.selected);
     },
 
     getTextSubject(value) {
@@ -330,13 +339,12 @@ export default {
       if (data.status === 200) {
         let result = await data.json();
         this.popResult = result;
+        this.form.sujet = this.popResult[0].Sujet
       }
     },
 
     changeDate: async function changeDate(event) {
-      this.popupDate = event.target.value;
-
-      console.log(this.popupDate);
+      this.form.date = event.target.value;
 
       const data = await fetch("http://localhost/app/appointments/time", {
         method: "POST",
@@ -351,49 +359,72 @@ export default {
 
         this.time = result;
 
-        console.log(this.time);
-        console.log(true);
       }
     },
 
     async deleteAppointment(RID) {
-      const result = { id: RID };
-      const data = await fetch(
-        "http://localhost/app/appointments/deleteAppointment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(result),
-        }
-      );
 
-      if (data.status === 200) {
-        swal({
-          title: "Good job!",
-          text: "You clicked the button!",
-          icon: "success",
-          button: "Aww yiss!",
-        });
-        this.$router.push("PatientPage");
-        this.getAppointment();
-      }
+
+      swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+
+            if (willDelete) {
+
+              const result = { id: RID };
+              const data =  fetch(
+                  "http://localhost/app/appointments/deleteAppointment",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(result),
+                  }
+                );
+
+
+                  if (data.status === 200) {
+                    swal({
+                      title: "Good job!",
+                      text: "You clicked the button!",
+                      icon: "success",
+                      button: "Ok",
+                    });
+                    
+                  }
+
+              swal("Poof! Your appointment  has been deleted!", {icon: "success",});
+
+                this.$router.push("PatientPage");
+                this.getAppointment();
+            } 
+            else {
+              swal("Your appointment  is safe!");
+            }
+      });
+
+      
     },
 
     async editAppointment(id) {
 
       const obj = {
         id : id,
-        date :this.popupDate,
+        date :this.form.date,
         selected : this.selected,
-        sujet : this.popupSujet
+        sujet : this.form.sujet
       }
       
-      // console.log(id)
-      // console.log(this.selected)
-      // console.log(this.popupDate)
-      // console.log(this.popupSujet)
+      console.log(id)
+      console.log(obj.selected)
+      console.log(obj.date)
+      console.log(obj.sujet)
 
       const data = await fetch(
         "http://localhost/app/appointments/updateAppointment",
@@ -408,18 +439,21 @@ export default {
 
       if (data.status === 200) {
         
-        console.log("appointment taken");
-        swal({
-          title: "Good job!",
-          text: "You clicked the button!",
-          icon: "success",
-          button: "Aww yiss!",
-        });
         this.$router.push("PatientPage");
+        this.popup = !this.popup
+        this.getAppointment();
+        swal({
+          title: "Updated",
+          text: "",
+          icon: "success",
+          button: "Ok",
+        });
       } else {
         console.log("Failure");
       }
     },
+
+   
   },
   beforeMount() {
     this.getAppointment();
@@ -433,4 +467,10 @@ export default {
 </script>
 
 <style scoped>
+
+@media (max-width:700px){
+  .popup{
+    width:400px
+  }
+}
 </style>
